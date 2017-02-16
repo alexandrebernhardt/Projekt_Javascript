@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Thermometer</title>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="css/style.css"/>
+		<style type="text/css">body {background-color: <%= background %>;}</style>
+	</head>
+	<body>
+		<img src="img/logo.png" alt="logo" class="logo" align="right"/>
+		<h1>Welcome</h1>
+		<div class="container">
+			<div class="box">
+				<div class="back-circle">
+					<div class="middle-circle">
+						<div class="front-circle">
+							<div class="thermometer"><%= temperature %>&nbsp;<strong>&deg;</strong></div>
+						</class>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<form  action="http://localhost:8080/users" method="post">
+			<table border="0" align="center" cellspacing="2" cellpadding="2">
+
+				<tr>
+					<td>Username</td>
+					<td><input type="text" name="alias" id="alias" required></td>
+				</tr>
+
+				<tr>
+					<td>Password</td>
+					<td><input type="text" name="password" required></td>
+				</tr>
+
+				<tr>
+					<td colspan="2"><input type="submit" value="Ready"></td>
+				</tr>
+			</table>
+		</form>
+		<p>If you go under 2° or over 60°, the product will be blocked.</p>
+	</body>
+</html>

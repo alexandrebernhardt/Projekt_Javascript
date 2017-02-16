@@ -1,0 +1,93 @@
+body {
+	font-family: Arial, sans-serif;
+}
+
+tr, p {
+	text-align: center;
+}
+
+.access-denied {
+	width: 40%;
+	height: 40%;
+}
+
+.device-informations {
+	font-size: 23px;
+}
+
+.logo {
+	width: 25%;
+	height: 25%;
+}
+
+.box .back-circle, .box .middle-circle, .box .front-circle, .box .thermometer {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+}
+
+.container {
+	width: 300px;
+	margin: 10px auto 0;
+}
+
+.box, .back-circle, .middle-circle, .front-circle {
+	border-radius: 100%;
+}
+
+.box, .back-circle {
+	position: relative;
+}
+
+.box {
+	width: 240px;
+	height: 240px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+	background-color: black;
+}
+
+.back-circle {
+	width: 210px;
+	height: 210px;
+	margin: -105px 0 0 -105px;
+	background-color: white;
+}
+
+.logo {
+	height: 15%;
+	width: 15%;
+}
+
+.middle-circle {
+	width: 180px;
+	height: 180px;
+	margin: -90px 0 0 -90px;
+	background-color: darkgray;
+}
+
+.front-circle {
+	width: 160px;
+	height: 160px;
+	margin: -80px 0 0 -80px;
+	background-color: gainsboro;
+}
+
+.thermometer {
+	font-family: Arial, sans-serif;
+	padding: 3px 10px 0 10px;
+	width: 120px;
+	height: 137px;
+	display: inline-block;
+	margin: -70px 0 0 -70px;
+	color: black;
+	font-size: 100px;
+	font-weight: 400;
+	text-align: center;
+}
+
+.thermometer strong {
+	position: absolute;
+	right: 10px;
+	top: 25px;
+	font-size: 34px;
+}

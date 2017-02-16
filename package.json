@@ -1,0 +1,23 @@
+{
+
+	"name": "Thermometer",
+
+	"version": "2.7.3",
+
+	"dependencies": {
+
+		"express": "~4.11.0",
+
+		"ejs": "~2.1.4",
+
+		"cookie-session": "~1.1.0",
+
+		"body-parser": "~1.10.1",
+
+		"mysql": "^2.10.2"
+	},
+
+	"author": "Alexandre Bernhardt",
+
+	"description": "Thermometer in JavaScript"
+}
