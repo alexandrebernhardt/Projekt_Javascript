@@ -16,6 +16,9 @@ Instructions to launch the app :
 	• Install MySQL, node.js, node legacy and npm :
 		sudo apt install mysql-server node nodejs-legacy npm
 
+	• Install the modules we're going to need to run the app :
+		npm install
+
 	• Launch MySQL as root :
 		sudo mysql -p
 
