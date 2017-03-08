@@ -6,15 +6,6 @@ const fs = require('fs');
 const http = require('http');
 var router = express.Router();
 
-// Variables declaration
-var values;
-var access;
-var background;
-var failuresStart;
-var insuranceEnd;
-var purchaseDate;
-var temperature;
-
 // reading the main page
 router.get('/', function(req, res) {
 
@@ -23,6 +14,15 @@ router.get('/', function(req, res) {
 
 // ------------------------------- storing values into variables -------------------------
 	mySqlClient.query(database.selectAllData, function select(error, results, fields) {
+
+		// Variables declaration
+		var values;
+		var access;
+		var background;
+		var failuresStart;
+		var insuranceEnd;
+		var purchaseDate;
+		var temperature;
 
 		if (error) {
 			console.log(error);

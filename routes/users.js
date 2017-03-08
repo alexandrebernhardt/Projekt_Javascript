@@ -11,14 +11,6 @@ var app = express();
 var urlencodedParser = bodyParser.urlencoded({extended: false});
 var users = express.Router();
 
-// Constant with the number of admins
-const NUMBER_OF_ADMINS = 2;
-
-// Variables specific to this file
-var values;
-var background;
-var temperature;
-
 app.use(bodyParser.urlencoded({extended: true}));
 
 // database connection
@@ -29,6 +21,11 @@ users.post('/', urlencodedParser, function(req, res) {
 
 // ---------------------------- select temperature ---------------------------------------
 	mySqlClient.query(database.selectTempBgColor, function select(error, results, fields) {
+
+		// Variables specific to this file
+		var values;
+		var background;
+		var temperature;
 
 		if (error) {
 
@@ -47,7 +44,10 @@ users.post('/', urlencodedParser, function(req, res) {
 		}
 
 // ----------------------- checking if user and password exist --------------------------
-	mySqlClient.query(database.selectAllUsers, function select(error, results, fields) {
+		mySqlClient.query(database.selectAllUsers, function select(error, results, fields) {
+
+			// Constant with the number of admins
+			const NUMBER_OF_ADMINS = 2;
 
 			if (error) {
 				console.log(error);

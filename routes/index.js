@@ -5,13 +5,6 @@ const express = require('express');
 const fs = require('fs');
 var router = express.Router();
 
-// Variables declaration
-var values;
-var access;
-var background;
-var temperature;
-var tempTest;
-
 // reading the main page
 router.get('/', function(req, res) {
 
@@ -20,6 +13,12 @@ router.get('/', function(req, res) {
 
 // ------------------------------- storing values into variables -------------------------
 	mySqlClient.query(database.selectTempBgColorAndAccess, function select(error, results, fields) {
+
+		// Variables declaration
+		var values;
+		var access;
+		var background;
+		var temperature;
 
 		if (error) {
 			console.log(error);
@@ -37,26 +36,10 @@ router.get('/', function(req, res) {
 			access = values['access_status'];
 		}
 
-// ------------------------------------- access -----------------------------------------
-		var content_index;
-
-		// if access is authorized
-		if (access === "authorized") {
-
-			// Calling index.html
-			content_index = fs.readFileSync('views/index.html', 'utf-8');
-		}
-
-		// if access isn't authorized
-		else {
-
-			// Calling misuse.html
-			content_index = fs.readFileSync('views/misuse.html', 'utf-8');
-		}
-
-// ---------------------------------------------------------------------------------------
 		// Displaying current access status in the terminal
 		console.log("access", access);
+
+		var content_index = displayedFile(access);
 
 		var compiled = ejs.compile(content_index);
 
@@ -66,6 +49,30 @@ router.get('/', function(req, res) {
 		res.end();
 	});
 });
+
+/**
+ * displayedFile function
+ * to send a file to display
+ *
+ * @param {String} currentStatus the current access status
+ * @return {String} the file that must be displayed
+ * */
+function displayedFile(currentStatus) {
+
+	// if access is authorized
+	if (currentStatus === "authorized") {
+
+		// Calling index.html
+		return fs.readFileSync('views/index.html', 'utf-8');
+	}
+
+	// if access isn't authorized
+	else {
+
+		// Calling misuse.html
+		return fs.readFileSync('views/misuse.html', 'utf-8');
+	}
+}
 
 // Keeping the code in a module
 module.exports = router;

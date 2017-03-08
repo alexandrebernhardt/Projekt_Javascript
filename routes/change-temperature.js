@@ -11,17 +11,18 @@ var app = express();
 var urlencodedParser = bodyParser.urlencoded({extended: false});
 var changeTemperature = express.Router();
 
-// Specific constants for the background color
-const FREEZING_COLD = 5;
-const COLD = 15;
-const HOT = 25;
-const BOILING_HOT = 35;
+// Constants for min and max temperatures allowed
 const MINIMAL_TEMPERATURE = 2;
 const MAXIMAL_TEMPERATURE = 60;
 
-// Variables specific to this file
-var values;
-var background;
+// Color constants
+const RED = "red";
+const ROYALBLUE = "royalblue";
+const SKYBLUE = "skyblue";
+const TOMATO = "tomato";
+const YELLOWGREEN = "yellowgreen";
+
+// Global variable with the temperature
 var baseTemperature;
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -34,6 +35,10 @@ changeTemperature.post('/', urlencodedParser, function(req, res) {
 
 // ---------------------------- select temperature ----------------------------------------
 	mySqlClient.query(database.selectTempBgColor, function select(error, results, fields) {
+
+		// Variables specific to this file
+		var values;
+		var background;
 
 		if (error) {
 
@@ -51,19 +56,11 @@ changeTemperature.post('/', urlencodedParser, function(req, res) {
 			background = values['background_color'];
 		}
 
-// --------------------------- new temperature calculation -------------------------------
-		// calculation
-		var givenNumber = req.body.degreesToAdd;
-		var newTemperature = baseTemperature + + givenNumber;
-
-		// displaying old, new and added temperature
-		console.log("base temperature:", baseTemperature);
-		console.log("selected amount:", givenNumber);
-		console.log("new temperature:", newTemperature);
-
 // --------------------------- if temperature < 2 or > 60 --------------------------------
 		var content_index;
 		var compiled;
+
+		var newTemperature = calculateNewTemperature(req.body.degreesToAdd);
 
 		if (newTemperature < MINIMAL_TEMPERATURE || newTemperature > MAXIMAL_TEMPERATURE) {
 
@@ -113,50 +110,12 @@ changeTemperature.post('/', urlencodedParser, function(req, res) {
 		});
 
 // ------------------------------ background values --------------------------------------
-		var setBackgroundQuery;
-
-		// if temperature very low
-		if (newTemperature <= FREEZING_COLD) {
-
-			// background color is set to RoyalBlue
-			background = "royalblue";
-			setBackgroundQuery = database.setRoyalBlueBackground;
-		}
-
-		// if temperature low but not too much
-		else if (newTemperature > FREEZING_COLD && newTemperature <= COLD) {
-
-			// background color is set to SkyBlue
-			background = "skyblue";
-			setBackgroundQuery = database.setSkyBlueBackground;
-		}
-
-		// if temperature hot but not too much
-		else if (newTemperature >= HOT && newTemperature < BOILING_HOT) {
-
-			// background color is set to Tomato
-			background = "tomato";
-			setBackgroundQuery = database.setTomatoBackground;
-		}
-
-		// if temperature very hot
-		else if (newTemperature >= BOILING_HOT) {
-
-			// background color is set to Red
-			background = "red";
-			setBackgroundQuery = database.setRedBackground;
-		}
-
-		// Default case: if temperature is moderate
-		else {
-
-			// background color is set to YellowGreen
-			background = "yellowgreen";
-			setBackgroundQuery = database.setYellowGreenBackground;
-		}
+		background = defineNewBackgroundColor(newTemperature);
 
 		// Informing about current background color in the terminal
 		console.log("current background color:", background);
+
+		var setBackgroundQuery = selectCorrespondingQuery(background);
 
 // ---------------------------- update background in db ---------------------------------
 		mySqlClient.query(setBackgroundQuery, function(err, result) {
@@ -181,6 +140,111 @@ changeTemperature.post('/', urlencodedParser, function(req, res) {
 		res.end();
 	});
 });
+
+/**
+ * calculateNewTemperature function
+ * to calculate the new temperature
+ *
+ * @param {int} givenNumber the degrees the user wants to add
+ * @return {int} newTemperature the new temperature
+ * */
+function calculateNewTemperature(givenNumber) {
+
+	var newTemperature = baseTemperature + + givenNumber;
+
+	// displaying old, new and added temperature
+	console.log("base temperature:", baseTemperature);
+	console.log("selected amount:", givenNumber);
+	console.log("new temperature:", newTemperature);
+
+	return newTemperature;
+}
+
+/**
+ * defineNewBackgroundColor function
+ * to define the background color
+ *
+ * @param {int} givenTemperature the current temperature
+ * @return {String} the new background color
+ * */
+function defineNewBackgroundColor(givenTemperature) {
+
+	// Temperature constants
+	const FREEZING_COLD = 5;
+	const COLD = 15;
+	const HOT = 25;
+	const BOILING_HOT = 35;
+
+	// if temperature very low
+	if (givenTemperature <= FREEZING_COLD) {
+
+		// background color is set to RoyalBlue
+		return ROYALBLUE;
+	}
+
+	// if temperature low but not too much
+	else if (givenTemperature > FREEZING_COLD && givenTemperature <= COLD) {
+
+		// background color is set to SkyBlue
+		return SKYBLUE;
+	}
+
+	// if temperature hot but not too much
+	else if (givenTemperature >= HOT && givenTemperature < BOILING_HOT) {
+
+		// background color is set to Tomato
+		return TOMATO;
+	}
+
+	// if temperature very hot
+	else if (givenTemperature >= BOILING_HOT) {
+
+		// background color is set to Red
+		return RED;
+	}
+
+	// Default case: if temperature is moderate
+	else {
+
+		// background color is set to YellowGreen
+		return YELLOWGREEN;
+	}
+}
+
+/**
+ * selectCorrespondingQuery function
+ * to calculate the new temperature
+ *
+ * @param {int} backgroundColor the current bg color
+ * @return {String} the corresponding SQL request
+ * */
+function selectCorrespondingQuery(backgroundColor) {
+
+	// if background color is RoyalBlue
+	if (backgroundColor == ROYALBLUE) {
+		return database.setRoyalBlueBackground;
+	}
+
+	// if background color is SkyBlue
+	else if (backgroundColor == SKYBLUE) {
+		return database.setSkyBlueBackground;
+	}
+
+	// if background color is Tomato
+	else if (backgroundColor == TOMATO) {
+		return database.setTomatoBackground;
+	}
+
+	// if background color is Red
+	else if (backgroundColor == YELLOWGREEN) {
+		return database.setRedBackground;
+	}
+
+	// Default case: if background color is YellowGreen
+	else {
+		return database.setYellowGreenBackground;
+	}
+}
 
 // Keeping the code in a module
 module.exports = changeTemperature;
