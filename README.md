@@ -1,12 +1,12 @@
 # READ ME - JavaScript Project 2017
 
 ## Project Team :
-#### Bernhardt Alexandre - Projektleiter/Javascript
-#### Chevrolat Alexandre - Unit Tests
-#### Coltel Morgane - CSS Stylesheets
-#### Mbongning T George Francis - Unit Tests
-#### Séné Pierre - SQL/HTML/Javascript
-#### Steinbach Sébastien - Documentation
+##### Bernhardt Alexandre - Projektleiter/Javascript
+##### Séné Pierre - SQL/HTML/Javascript
+##### Coltel Morgane - CSS Stylesheets
+##### Chevrolat Alexandre - Unit Tests
+##### Mbongning T George Francis - Unit Tests
+##### Steinbach Sébastien - Documentation
 
 ## Instructions to launch the app :
 ### Open a terminal (see shortcut below) :
@@ -29,12 +29,12 @@ npm install
 sudo mysql -p
 ```
 
-#### Within MySQL, create the dabase using this single command :
+##### Within MySQL, create the dabase using this single command :
 ```
-source <path_to_file>/thermometer.sql;
+source <path_to_folder>/lib/thermometer.sql;
 ```
 
-#### You can now leave MySQL :
+##### You can now leave MySQL :
 ```
 exit;
 ```
